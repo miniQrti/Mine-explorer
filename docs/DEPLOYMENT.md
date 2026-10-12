@@ -1,6 +1,6 @@
 # Hosting Mine Explorer
 
-The game is entirely static and can run on GitHub Pages. A public repository does not automatically enable Pages.
+The game is entirely static and is live at **https://miniqrti.github.io/Mine-explorer/**. GitHub Actions deployment and published desktop/mobile gameplay checks passed. A public repository does not automatically enable Pages; this repository is configured as described below.
 
 ## GitHub Actions deployment
 

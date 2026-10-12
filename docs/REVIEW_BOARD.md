@@ -1,6 +1,8 @@
 # Mine Explorer review board
 
-**Status:** three specialist review and improvement rounds completed. No known release-blocking findings remain. Deployment verification is in progress.
+**Status:** three specialist review and improvement rounds completed. No known release-blocking findings remain. Deployment and live gameplay verification passed.
+
+**[Play Mine Explorer](https://miniqrti.github.io/Mine-explorer/)**
 
 [GitHub review issue](https://github.com/miniQrti/Mine-explorer/issues/1) · [Repository](https://github.com/miniQrti/Mine-explorer) · [Desktop screenshot](screenshots/desktop.png) · [Mobile screenshot](screenshots/mobile.png)
 
@@ -16,7 +18,7 @@
 | WORKER-2 | Round 2 | Recovery | Retry after worker-load error reuses failed worker | Interface specialist | Done | Terminate/reset worker; network-abort/retry regression; independent second-worker probe |
 | GESTURE-2 | Round 2 | Mobile UX | Harden long-press context menus and second touches on controls | Interface specialist | Done | Pending reveal canceled; true Chromium touch regression |
 | REG-3 | Round 3 | Release | Expanded gameplay, persistence, and responsive regression | Independent reviewers | Done | 15 engine tests; 36 browser passes, 2 intentional skips; WebKit desktop/mobile pass |
-| DEPLOY-3 | Round 3 | Hosting | Verify workflow and actual published game | Project lead | In progress | Pages configured; deployment checks pending |
+| DEPLOY-3 | Round 3 | Hosting | Verify workflow and actual published game | Project lead | Done | Actions passed; live desktop/mobile DOM-only puzzle solving, descent, Help, assets, and JS errors checked |
 | FOCUS-NEXT | Future polish | Keyboard UX | Automatically focus board after retry/descent | Backlog | Optional | Current Tab navigation works; no blocked action |
 
 ## Round 1 — first playable build
@@ -47,6 +49,9 @@
 - **Final visual review:** desktop, 320px portrait, and 667×375 landscape remained readable; deep counters, loss/exit panels, and focused actions fit. A clipped screenshot was traced to the test harness auto-scrolling an offscreen focused tile, not the app's preventScroll keyboard flow.
 
 ## Scope and evidence
+
+- [Validation and deployment workflow](https://github.com/miniQrti/Mine-explorer/actions/runs/38303611188) succeeded for game commit `9e67c88`.
+- The actual published URL passed desktop and mobile production checks with no QA harness: clues were read directly from rendered tiles, used to deduce safe moves (21 desktop moves and 8 mobile moves on independently generated floors), and followed through stairs to floor 2. Help worked; no failed assets or uncaught JavaScript errors were observed.
 
 - Each delivered floor is validated using the same visible clues/frontier available to the player. Failed, stalled, trivial, or timed-out candidates are never delivered as fallback puzzles.
 - Tests are in `tests/engine.test.js`, `tests/browser.spec.js`, `tests/qa-helpers.js`, and `tests/webkit-smoke.mjs`.

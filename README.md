@@ -2,7 +2,9 @@
 
 A browser puzzle game combining classic Minesweeper deduction with endless exploration through an irregular underground mine.
 
-**Status:** playable browser implementation validated through three specialist review rounds. GitHub Pages is configured for deployment through Actions.
+**[Play Mine Explorer](https://miniqrti.github.io/Mine-explorer/)**
+
+**Status:** live and validated through three specialist review rounds. GitHub Actions validation/deployment passed, and the published game was checked in desktop and mobile browser contexts.
 
 **Repository:** [miniQrti/Mine-explorer](https://github.com/miniQrti/Mine-explorer), public for browser test-page hosting.
 
