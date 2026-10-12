@@ -121,4 +121,4 @@ Build the fairness mechanism early because it constrains cave generation and pro
 - Controls work on desktop and touch devices without gesture-triggered accidental reveals.
 - Portrait and landscape layouts preserve readable clues and comfortable interaction.
 
-These checks describe future implementation validation. No playable build or automated test results exist yet.
+These checks are implemented and validated in the first playable build. See [the review board](REVIEW_BOARD.md) for three specialist review rounds, fixes, and measured results. The engine and browser suites are in `tests/`.

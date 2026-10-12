@@ -2,7 +2,7 @@
 
 A browser puzzle game combining classic Minesweeper deduction with endless exploration through an irregular underground mine.
 
-**Status:** design agreed; implementation has not started.
+**Status:** playable browser implementation validated through three specialist review rounds. GitHub Pages is configured for deployment through Actions.
 
 **Repository:** [miniQrti/Mine-explorer](https://github.com/miniQrti/Mine-explorer), public for browser test-page hosting.
 
@@ -12,7 +12,41 @@ A browser puzzle game combining classic Minesweeper deduction with endless explo
 - Expedition and floor retry modes.
 - Lantern-lit pixel-art caves with readable classic number clues.
 
-See [the design specification](docs/DESIGN.md) for agreed rules and the implementation sequence.
+## Run locally
+
+Use Node.js 24 or newer:
+
+```sh
+npm ci
+npm run dev
+```
+
+Open http://localhost:4173. Desktop: click to reveal, right-click to flag. Touch: tap to reveal, hold to flag, drag to pan, pinch to zoom. Keyboard: Tab into the board, arrows to navigate, Enter/Space to reveal, F to flag.
+
+Runs and separate mode records save in this browser when local storage is available. Refreshing resumes the same attempt; retrying a failed floor always creates a new cave. No account or server is required.
+
+## Validate and build
+
+```sh
+npm test
+npx playwright install chromium
+npm run test:browser
+npm run build
+```
+
+The build is a static site in `dist/` and uses relative asset paths for GitHub Pages. The generation worker rejects caves that cannot be solved from visible clues; it never returns an unverified fallback.
+
+Final local validation: **15 engine tests**, **36 Chromium browser tests** (plus 2 intentional desktop touch skips), and desktop/mobile WebKit smoke checks passed. Mobile tests use device emulation; physical-device testing is still useful. For the optional WebKit smoke suite, install Playwright WebKit and its system dependencies, keep `npm run dev` running, then run `npm run test:webkit`.
+
+See [the design specification](docs/DESIGN.md), [review board](docs/REVIEW_BOARD.md), and [hosting instructions](docs/DEPLOYMENT.md).
+
+## Playable build
+
+![Mine Explorer desktop gameplay](docs/screenshots/desktop.png)
+
+[Mobile gameplay screenshot](docs/screenshots/mobile.png)
+
+## Original visual direction
 
 ![Visual direction for Mine Explorer](docs/concept.png)
 

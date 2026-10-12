@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101310"><meta name="description" content="Follow the numbers into an endless mine. A fair, atmospheric Minesweeper exploration game.">
+  <title>Mine Explorer</title><link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="masthead">
+      <a class="brand" href="./" aria-label="Mine Explorer home"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 29 28 8M12 8c11-5 18 0 21 10M11 10l19 21M7 17c2-7 8-11 14-10"/></svg><span>MINE EXPLORER<small>INTO THE UNKNOWN</small></span></a>
+      <div class="depth"><span>FLOOR</span><strong id="depth">001</strong><i aria-hidden="true">↓</i></div>
+      <div class="header-actions"><div class="record"><span>DEEPEST</span><strong id="best">001</strong></div><button class="icon-btn" id="help-open" aria-label="How to play">?</button><button class="icon-btn" id="settings-open" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M8 4v6m8 4v6"/></svg></button></div>
+    </header>
+    <main id="viewport" aria-label="Mine exploration board. Drag to pan, use plus and minus to zoom.">
+      <div class="atmosphere" aria-hidden="true"></div><div class="dust" aria-hidden="true"></div>
+      <div class="board" id="board" role="group" aria-label="Explored cave and adjacent tiles"></div>
+      <div class="topline"><button id="mode-open" class="mode-chip"><span class="status-dot"></span><span id="mode-label">EXPEDITION</span><span class="chevron">⌄</span></button><span class="fairness"><span aria-hidden="true">◇</span> EVERY FLOOR HAS A LOGICAL PATH</span></div>
+      <aside class="field-note" id="field-note"><span class="eyebrow">FIELD NOTES / 01</span><button id="note-dismiss" aria-label="Dismiss field notes">×</button><h1>The way down <br>is waiting.</h1><p>Read the numbers. Mark the danger.<br>Find the stairs to go deeper.</p><button id="note-help">Learn the rules <span aria-hidden="true">↗</span></button></aside>
+      <div class="loading-panel" id="loading"><span class="lantern" aria-hidden="true">✦</span><h2>Lighting the way…</h2><p>Finding a cave with a logical path.</p><button id="generation-retry" class="primary" hidden>Try again</button></div>
+      <div class="outcome" id="outcome" hidden></div>
+      <div class="map-controls"><button class="icon-btn" id="recenter" aria-label="Center explored area" title="Center explored area">⌖</button><span></span><button class="icon-btn" id="zoom-out" aria-label="Zoom out">−</button><output id="zoom-level" aria-label="Zoom level">100%</output><button class="icon-btn" id="zoom-in" aria-label="Zoom in">+</button></div>
+      <div class="coordinate" aria-hidden="true">UNMAPPED TERRITORY<span>PROCEED WITH CURIOSITY</span></div>
+    </main>
+    <footer class="footer"><div class="controls-desktop"><span><kbd>CLICK</kbd> Reveal</span><span><kbd>RIGHT CLICK</kbd> Flag</span><span><kbd>DRAG</kbd> Explore</span></div><div class="controls-touch"><span><kbd>TAP</kbd> Reveal</span><span><kbd>HOLD</kbd> Flag</span><span><kbd>DRAG / PINCH</kbd> Move / zoom</span></div><span class="footer-goal"><span class="tiny-stairs" aria-hidden="true">↘</span> FIND THE WAY DOWN</span></footer>
+  </div>
+  <div id="announcement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <dialog id="help-dialog"><button class="dialog-close icon-btn" aria-label="Close help">×</button><span class="eyebrow">YOUR FIELD GUIDE</span><h2>A little logic.<br>A little deeper.</h2><p>Find the hidden stairs to descend. You never need to clear the whole floor.</p><div class="guide-row"><span class="sample-number">2</span><p>A number counts mines in all <strong>eight neighboring tiles</strong>, including diagonals. Rock contains no mines.</p></div><div class="guide-row"><span class="sample-covered">?</span><p>Reveal only covered tiles beside explored ground. A zero opens its connected empty area automatically.</p></div><div class="guide-row"><span class="sample-flag">⚑</span><p>Right-click or long-press to flag a suspected mine. Flags are notes; wrong flags can block your progress.</p></div><p class="small-note">Every floor has a route to the stairs you can deduce without guessing. Take your time—there’s no clock.</p><details><summary>Keyboard & navigation</summary><p>Tab into the board, then use arrow keys to move between visible tiles. Enter or Space reveals a tile; F places or removes a flag. Drag to pan, pinch or use + / − to zoom. The crosshair centers explored ground.</p></details><button class="primary dialog-done">Into the mine <span>→</span></button></dialog>
+  <dialog id="settings-dialog"><button class="dialog-close icon-btn" aria-label="Close settings">×</button><span class="eyebrow">MAKE YOURSELF AT HOME</span><h2>Settings</h2><label class="setting-row"><span>Mine sounds<small>Quiet stone and lantern tones</small></span><input id="sound-toggle" type="checkbox" role="switch"></label><label class="setting-row"><span>Reduced motion<small>Keep transitions still</small></span><input id="motion-toggle" type="checkbox" role="switch"></label><button id="settings-modes" class="secondary">Change game mode <span>→</span></button><p class="small-note">Your floor and depth records save automatically on this device when browser storage is available.</p><button class="primary dialog-done">Back to exploring</button></dialog>
+  <dialog id="mode-dialog"><button class="dialog-close icon-btn" aria-label="Close mode selection">×</button><span class="eyebrow">CHOOSE YOUR DESCENT</span><h2>How far will you go?</h2><button class="mode-option" data-mode="expedition"><span><strong>Expedition</strong><small>One mine sends you back to floor 1.</small></span><span class="mode-check">○</span></button><button class="mode-option" data-mode="retry"><span><strong>Floor retry</strong><small>One mine starts a fresh cave at this depth.</small></span><span class="mode-check">○</span></button><p class="small-note">Both modes generate a new, logically solvable cave on every attempt. Depth records stay separate.</p><div id="mode-confirm" hidden><p>Changing modes starts a new expedition at floor 1. Your current floor will be replaced.</p><button id="mode-confirm-button" class="primary">Start in this mode <span>→</span></button></div></dialog>
+  <script type="module" src="./src/app.js"></script>
+</body></html>
