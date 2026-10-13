@@ -301,7 +301,25 @@ button[hidden],[hidden] {
 }
 .cell.entrance {
   background:linear-gradient(140deg,#a7a080,#c5b77e);
-  box-shadow:0 0 48px 9px #daa44a33,inset 2px 2px 0 #eed2a42e
+  box-shadow:0 0 48px 9px #daa44a33,inset 0 0 0 2px #eac279;
+  flex-direction:column;
+  gap:0
+}
+.cell.entrance svg {
+  width:28px;
+  height:28px
+}
+.entrance-label {
+  font:700 8px/10px var(--mono);
+  letter-spacing:1px;
+  color:#332b19;
+  pointer-events:none
+}
+.entrance-clue {
+  position:absolute;
+  top:2px;
+  right:3px;
+  font-size:13px
 }
 .cell.stairs {
   background:#312e21;
@@ -340,6 +358,57 @@ button[hidden],[hidden] {
   gap:10px;
   font:9px var(--mono);
   letter-spacing:1.8px
+}
+.topline-right {
+  display:flex;
+  align-items:center;
+  gap:22px
+}
+#legend-open {
+  font-size:11px;
+  letter-spacing:.5px;
+  min-height:44px
+}
+.legend-list {
+  list-style:none;
+  margin:22px 0;
+  padding:0
+}
+.legend-list li {
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin:18px 0
+}
+.legend-list strong {
+  font-size:13px;
+  font-weight:600
+}
+.legend-list p {
+  margin:4px 0 0;
+  font-size:12px;
+  line-height:1.5
+}
+.legend-symbol {
+  flex:none;
+  width:44px;
+  height:44px;
+  border-radius:3px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(136deg,#cec8b0,#b5b39a)
+}
+.legend-symbol svg { width:32px; height:32px; }
+.legend-entrance { background:#c5b77e; box-shadow:inset 0 0 0 2px #eac279; }
+.legend-stairs { background:#312e21; box-shadow:inset 0 0 0 2px #b9914d; }
+.legend-number { font:700 24px var(--mono); color:#3d642e; }
+.legend-covered { background:linear-gradient(135deg,#394337,#2b352b); border:1px solid #657055; font-size:9px; color:#73825a; }
+.legend-rock { background:linear-gradient(132deg,#424b39 0 27%,#313b2d 28% 61%,#242d24 62%); clip-path:polygon(15% 3%,72% 0,97% 21%,93% 77%,73% 98%,19% 93%,0 64%,3% 27%); }
+.legend-fog { background:#090f0c; border:1px dashed #3e4a35; }
+.legend-mine { background:#974536; color:#241d18; }
+@media(max-width:700px) {
+  .topline-right .fairness { display:none; }
+  .topline-right { gap:0; }
 }
 .status-dot {
   width:5px;

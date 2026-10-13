@@ -194,6 +194,11 @@ export function validateFloor(floor) {
   }
   const safeTiles = floor.cells.filter(cell => !cell.rock && !cell.mine).length;
   const openingRevealed = state.revealed.size;
+  // V1 remains reproducible for action-log saves. New floors use natural
+  // compact zero regions; flood reveal itself is never artificially cut off.
+  if (floor.generationVersion !== 1 && (openingRevealed < 9 || openingRevealed > 16)) {
+    return { solvable: false, reason: 'opening-not-compact', trace };
+  }
   if (openingRevealed / safeTiles > difficulty.maxOpeningFraction) {
     return { solvable: false, reason: 'opening-too-large', trace };
   }
@@ -257,10 +262,10 @@ function freshSeed() {
   return `${Date.now().toString(36)}-${values[0].toString(36)}-${values[1].toString(36)}-${++seedCounter}`;
 }
 
-function candidateFloor(depth, seed, random) {
+function candidateFloor(depth, seed, random, generationVersion) {
   const difficulty = difficultyForDepth(depth);
   const { width, height } = difficulty;
-  const startX = depth === 1 ? 2 : Math.floor(width / 2);
+  const startX = depth === 1 ? (generationVersion === 1 ? 2 : 1) : Math.floor(width / 2);
   const startY = Math.floor(height / 2);
   const entrance = startY * width + startX;
   const cells = [];
@@ -269,10 +274,18 @@ function candidateFloor(depth, seed, random) {
   for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
     const opening = Math.abs(x - startX) <= 1 && Math.abs(y - startY) <= 1;
     const boundary = x === 0 || x === width - 1 || y < top[x] || y > bottom[x];
-    const rock = !opening && (boundary || random() < 0.095);
-    cells.push({ x, y, rock, mine: !rock && !opening && random() < difficulty.mineDensity, clue: 0 });
+    const rock = generationVersion === 1
+      ? !opening && (boundary || random() < 0.095)
+      : boundary || (!opening && random() < 0.095);
+    // A somewhat denser outer rim tends to bound the first natural zero
+    // region. It is still random, and the same independent solver must prove
+    // a route out; no scripted safe corridor or special reveal rule is used.
+    const openingRim = generationVersion === 2
+      && Math.max(Math.abs(x - startX), Math.abs(y - startY)) === 2;
+    const mineDensity = openingRim ? Math.max(0.35, difficulty.mineDensity) : difficulty.mineDensity;
+    cells.push({ x, y, rock, mine: !rock && !opening && random() < mineDensity, clue: 0 });
   }
-  const floor = { width, height, cells, entrance, exit: -1, seed, depth };
+  const floor = { width, height, cells, entrance, exit: -1, seed, depth, generationVersion };
   // Exclude isolated chambers from the cave footprint. Connectivity alone
   // does not imply solvability; the independent validator below proves that.
   const connected = new Set([entrance]), queue = [entrance];
@@ -299,13 +312,15 @@ export class GenerationError extends Error {
 
 export function generateFloor(depth = 1, options = {}) {
   depth = normalizeDepth(depth);
+  const generationVersion = options?.generationVersion ?? 2;
+  if (generationVersion !== 1 && generationVersion !== 2) throw new RangeError('Unsupported generation version.');
   const seed = String(options?.seed ?? freshSeed());
   const requestedAttempts = Number(options?.maxAttempts ?? 400);
   if (!Number.isFinite(requestedAttempts) || requestedAttempts < 0) throw new RangeError('maxAttempts must be a finite nonnegative number.');
   const maxAttempts = Math.min(2000, Math.floor(requestedAttempts));
   const random = randomForSeed(seed);
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const floor = candidateFloor(depth, seed, random);
+    const floor = candidateFloor(depth, seed, random, generationVersion);
     if (!floor) continue;
     const validation = validateFloor(floor);
     if (validation.solvable) {

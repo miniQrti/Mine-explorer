@@ -13,6 +13,7 @@ A browser puzzle game combining classic Minesweeper deduction with endless explo
 - Fresh, logically solvable floors on every attempt.
 - Expedition and floor retry modes.
 - Lantern-lit pixel-art caves with readable classic number clues.
+- Clearly marked entrances, a full symbol legend, and compact 9–16-tile starts.
 
 ## Run locally
 
@@ -24,6 +25,8 @@ npm run dev
 ```
 
 Open http://localhost:4173. Desktop: click to reveal, right-click to flag. Touch: tap to reveal, hold to flag, drag to pan, pinch to zoom. Keyboard: Tab into the board, arrows to navigate, Enter/Space to reveal, F to flag.
+
+Start at the gold **ENTRY** tile and reveal covered tiles along the explored edge. **Legend** explains every map symbol. The entrance icon beside the map controls returns the view to your starting point.
 
 Runs and separate mode records save in this browser when local storage is available. Refreshing resumes the same attempt; retrying a failed floor always creates a new cave. No account or server is required.
 
@@ -38,7 +41,7 @@ npm run build
 
 The build is a static site in `dist/` and uses relative asset paths for GitHub Pages. The generation worker rejects caves that cannot be solved from visible clues; it never returns an unverified fallback.
 
-Final local validation: **15 engine tests**, **36 Chromium browser tests** (plus 2 intentional desktop touch skips), and desktop/mobile WebKit smoke checks passed. Mobile tests use device emulation; physical-device testing is still useful. For the optional WebKit smoke suite, install Playwright WebKit and its system dependencies, keep `npm run dev` running, then run `npm run test:webkit`.
+Validation results and subsequent feedback regressions are recorded in the [review board](docs/REVIEW_BOARD.md). Mobile tests use device emulation; physical-device testing is still useful. For the optional WebKit smoke suite, install Playwright WebKit and its system dependencies, keep `npm run dev` running, then run `npm run test:webkit`.
 
 See [the design specification](docs/DESIGN.md), [review board](docs/REVIEW_BOARD.md), and [hosting instructions](docs/DEPLOYMENT.md).
 

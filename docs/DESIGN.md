@@ -9,8 +9,8 @@ A responsive browser game for desktop, phones, and tablets. The player uses clas
 ## Core rules
 
 1. Each floor is a square-cell grid with an irregular playable footprint. Solid, indestructible rock shapes chambers and passages.
-2. Each floor begins with a small safe, revealed entrance area that provides a logical starting point.
-3. Floor 1 starts at one end of the map. Later floors may start near the middle, allowing exploration in several directions.
+2. Each new floor begins with 9–16 safe, revealed tiles around a clearly labelled gold ENTRY tile. Normal zero expansion remains intact; generation rejects openings outside this range instead of stopping a flood artificially.
+3. Floor 1 starts at the left cave edge, with solid rock behind the entrance. Later floors may start near the middle, allowing exploration in several directions. New floors center the camera on the entrance; a dedicated entrance control returns the view there after panning.
 4. The player can reveal a covered tile only if it touches revealed ground, horizontally, vertically, or diagonally.
 5. The eligible frontier appears as covered tiles. The rest of the cave remains concealed by fog of war, including its overall silhouette and stair location.
 6. Revealed ground displays the count of mines in all eight neighboring positions. Solid rock cannot contain mines. Mine counts are based on neighboring cells, not lines of sight through rock.
@@ -95,8 +95,11 @@ Use a top-down square grid with crisp pixel-art styling:
 - Deep fog beyond explored terrain.
 - Small warm lantern accents at entrances and revealed stairs.
 - Restrained interface showing mode, current floor, best depth, and settings.
+- A persistent Legend button explains the entrance, stairs, number clues, empty floor, covered tiles, flags, rock, fog, and mines using the same symbols as the board.
 
 Lighting must never impair number readability or reveal hidden gameplay information. The approved concept in `concept.png` is a mood and layout reference, not a mechanically valid board or a game asset sheet.
+
+Saved runs record their generation version. Runs with progress from the original generator replay on exactly the same terrain; all new floors use compact openings. An untouched original opening upgrades to a fresh compact floor at the same depth. Existing depth records are retained.
 
 Suggested audio: subtle stone clicks, distant water, and a short descent cue. Sound should be optional and compatible with mobile browser gesture requirements.
 

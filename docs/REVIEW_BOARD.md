@@ -58,3 +58,21 @@
 - Mobile checks use device emulation, not physical iPhone/Android certification. Native long-press/pinch/cancel input was covered through Chromium; WebKit covered native taps and the broader gameplay flow.
 - The GitHub Pages workflow runs engine and Chromium browser tests before building and deploying. Local WebKit smoke is supplemental.
 - The optional keyboard-focus polish is tracked separately from completed release requirements.
+
+## Player feedback update — 2026-10-13
+
+The first-floor entrance was visually ambiguous, new floors showed too much safe ground, and the symbol meanings were unclear.
+
+| Finding | Change | Validation |
+| --- | --- | --- |
+| Entrance hard to identify | Gold ENTRY label and timber entrance icon; camera starts at the entrance; entrance control returns the view there | Desktop/mobile tests at depths 1, 17, 201 plus rendered portrait/landscape review |
+| Starting area too large | New floors reveal 9–16 safe cells; first entrance sits at the cave edge with rock behind it | 320 proof replays also reconstruct ordinary zero-flood behavior independently; no artificial flood cutoff |
+| Missing symbol guide | Persistent Legend button and Help link explain all nine symbols | Actual icon parity, both opening routes, scrolling and closing on narrow touch screens |
+| Save compatibility after generation change | Versioned generation preserves exact old progressed boards; untouched old openings adopt compact generation | Five historical whole-floor/proof hashes; exact old/new browser save-reload regressions |
+| Ambiguous starting instructions | Direct players to covered tiles along the explored edge, rather than already-open entrance neighbors | Specialist design review finding applied |
+
+Results: **16 engine tests passed; 48 Chromium desktop/mobile browser tests passed, 2 intentional desktop touch skips; no unexpected JavaScript errors.** The engine specialist also generated 500 compact floors across depth bands without failure (maximum observed generation time 33 ms). Existing fairness, gesture safety, failure modes, descent, and worker recovery checks still pass.
+
+A supplemental WebKit rerun could not launch after the environment reset removed its temporary native libraries. The original release's WebKit results above remain historical; this update's executed mobile regression coverage is Chromium emulation plus rendered UX review.
+
+Updated screenshots: [desktop](screenshots/desktop.png), [mobile](screenshots/mobile.png), [legend](screenshots/legend.png). Live deployment verification for this update is pending.

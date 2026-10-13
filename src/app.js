@@ -4,7 +4,7 @@ const $ = id => document.getElementById(id);
 const viewport = $('viewport'), board = $('board');
 const TILE = 48, SAVE_KEY = 'mine-explorer.run.v1', PREF_KEY = 'mine-explorer.preferences.v1';
 const flagSVG = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M10 27V5" stroke="#cdb889" stroke-width="2"/><path d="m11 6 14 4-14 7Z" fill="#bd7651"/><path d="M6 27h10" stroke="#b1ac84" stroke-width="2"/></svg>';
-const entranceSVG = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 28V11l4-5h10l4 5v17Z" fill="#5e5940"/><path d="M11 28V13h10v15Z" fill="#302f26"/><path d="M5 12h22M9 7h14" stroke="#aa8550" stroke-width="3"/><path d="M16 16v8m-3-3 3 3 3-3" stroke="#e5bd71" stroke-width="1.5" fill="none"/></svg>';
+const entranceSVG = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 29V10l4-5h10l4 5v19Z" fill="#665538"/><path d="M11 29V12h10v17Z" fill="#171e16"/><path d="M5 11h22M9 6h14M8 11v18m16-18v18" stroke="#bd9151" stroke-width="3"/><path d="M27 9v7" stroke="#382d19" stroke-width="2"/><rect x="25" y="15" width="5" height="6" rx="1" fill="#f5ca75"/></svg>';
 const stairsSVG = '<svg viewBox="0 0 36 36" aria-hidden="true"><path d="M5 5h26v26H5Z" fill="#151c15"/><path d="M8 9h19v5H11v5h13v5H14v5" fill="none" stroke="#c2ac7c" stroke-width="3"/><path d="M29 6v10" stroke="#cba763" stroke-width="2"/><circle cx="29" cy="10" r="3" fill="#f2cb72"/></svg>';
 const mineSVG = '<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="8"/><path d="M16 3v26M3 16h26M7 7l18 18M7 25 25 7" stroke="currentColor" stroke-width="3"/><circle cx="13" cy="12" r="2" fill="#ddac87"/></svg>';
 
@@ -20,7 +20,7 @@ let gesture = null, holdTimer = null, touchFlagUntil = 0;
 const announce = message => { $('announcement').textContent = message; };
 const formatDepth = value => String(value).padStart(3, '0');
 function savePreferences() { writeStore(PREF_KEY, preferences); }
-function persist() { if (state) writeStore(SAVE_KEY, { version: 1, depth: state.floor.depth, seed: state.floor.seed, mode, actions }); }
+function persist() { if (state) writeStore(SAVE_KEY, { version: 2, generationVersion: state.floor.generationVersion ?? 2, depth: state.floor.depth, seed: state.floor.seed, mode, actions }); }
 function freshSeed() { const values = new Uint32Array(3); crypto.getRandomValues(values); return [...values].map(v => v.toString(36)).join('-'); }
 function sound(kind) {
   if (!preferences.sound) return;
@@ -45,6 +45,13 @@ function centerBoard() {
   const shift = bounds.width > 1000 && !preferences.noteDismissed ? 85 : 0;
   camera.x = bounds.width / 2 + shift - (minX + maxX + 1) / 2 * TILE * camera.zoom;
   camera.y = bounds.height / 2 - (minY + maxY + 1) / 2 * TILE * camera.zoom;
+  updateCamera();
+}
+function centerEntrance() {
+  if (!state) return;
+  const cell = state.floor.cells[state.floor.entrance], bounds = viewport.getBoundingClientRect();
+  camera.x = bounds.width / 2 - (cell.x + .5) * TILE * camera.zoom;
+  camera.y = bounds.height / 2 - (cell.y + .5) * TILE * camera.zoom;
   updateCamera();
 }
 function zoomTo(value, clientX, clientY) {
@@ -78,7 +85,7 @@ function render() {
       if (exploded) element.innerHTML = mineSVG;
       else if (cell.flagged) element.innerHTML = flagSVG;
       else if (cell.stairs) element.innerHTML = stairsSVG;
-      else if (cell.entrance && !cell.clue) element.innerHTML = entranceSVG;
+      else if (cell.entrance) element.innerHTML = entranceSVG + '<span class="entrance-label">ENTRY</span>' + (cell.clue ? '<span class="entrance-clue">' + cell.clue + '</span>' : '');
       else if (cell.kind === 'revealed' && cell.clue) element.textContent = cell.clue;
     }
     board.append(element);
@@ -116,7 +123,7 @@ function installFloor(floor, restoreActions = []) {
   }
   focusIndex = null; camera.zoom = 1; busy = false;
   document.body.classList.remove('loading'); $('loading').hidden = true;
-  render(); centerBoard(); persist(); announce(`Floor ${floor.depth}. ${mode === 'expedition' ? 'Expedition' : 'Floor retry'} mode. Explore the covered tiles beside the entrance.`);
+  render(); if (restoreActions.length) centerBoard(); else centerEntrance(); persist(); announce(`Floor ${floor.depth}. ${mode === 'expedition' ? 'Expedition' : 'Floor retry'} mode. ${restoreActions.length ? 'Your exploration has been restored.' : 'Start at the gold ENTRY tile.'} Reveal covered tiles along the edge of explored ground.`);
 }
 function generationFailed(message) {
   busy = true; $('loading').hidden = false; document.body.classList.add('loading');
@@ -143,7 +150,7 @@ async function beginFloor(depth = 1, options = {}) {
       const onMessage = ({ data }) => { if (data.id !== id) return; cleanup(); data.error ? reject(new Error(data.error)) : resolve(data.floor); };
       const onError = event => { cleanup(); generationWorker.terminate(); if (worker === generationWorker) worker = null; reject(new Error(event.message)); };
       generationWorker.addEventListener('message', onMessage); generationWorker.addEventListener('error', onError);
-      generationWorker.postMessage({ id, depth, seed });
+      generationWorker.postMessage({ id, depth, seed, generationVersion: options.generationVersion ?? 2 });
     });
     if (id !== generationId) return;
     if (!floor.validation?.solvable) throw new Error('A validated floor was not returned.');
@@ -220,6 +227,13 @@ viewport.addEventListener('wheel', event => { if (event.target.closest('button,.
 
 function showDialog(id) { cancelHold(); gesture = null; pointerState.clear(); $(id).showModal(); }
 $('help-open').onclick = () => showDialog('help-dialog'); $('note-help').onclick = () => showDialog('help-dialog');
+$('legend-open').onclick = () => showDialog('legend-dialog');
+$('help-legend').onclick = () => { $('help-dialog').close(); showDialog('legend-dialog'); };
+document.querySelectorAll('[data-legend-icon]').forEach(element => {
+  element.innerHTML = { entrance: entranceSVG, stairs: stairsSVG, flag: flagSVG, mine: mineSVG }[element.dataset.legendIcon] || '';
+});
+$('entrance-center').innerHTML = entranceSVG;
+$('entrance-center').onclick = centerEntrance;
 $('settings-open').onclick = () => showDialog('settings-dialog'); $('note-dismiss').onclick = dismissNote;
 document.querySelectorAll('dialog').forEach(dialog => {
   dialog.querySelectorAll('.dialog-close,.dialog-done').forEach(button => { button.onclick = () => dialog.close(); });
@@ -256,6 +270,10 @@ if (new URLSearchParams(location.search).get('qa') === '1') {
   };
 }
 const saved = readStore(SAVE_KEY, null);
-if (saved?.version === 1 && typeof saved.seed === 'string' && Number.isSafeInteger(saved.depth) && saved.depth > 0 && ['expedition', 'retry'].includes(saved.mode) && Array.isArray(saved.actions) && saved.actions.length < 10000) {
-  mode = saved.mode; beginFloor(saved.depth, { seed: saved.seed, actions: saved.actions });
+if ([1, 2].includes(saved?.version) && typeof saved.seed === 'string' && Number.isSafeInteger(saved.depth) && saved.depth > 0 && ['expedition', 'retry'].includes(saved.mode) && Array.isArray(saved.actions) && saved.actions.length < 10000 && (saved.version === 1 || [1, 2].includes(saved.generationVersion))) {
+  mode = saved.mode;
+  // An untouched old opening can adopt the smaller start. Progressed runs
+  // must replay against their original generator to preserve every tile.
+  if (saved.version === 1 && !saved.actions.length) beginFloor(saved.depth);
+  else beginFloor(saved.depth, { seed: saved.seed, actions: saved.actions, generationVersion: saved.version === 1 ? 1 : saved.generationVersion });
 } else beginFloor(1);

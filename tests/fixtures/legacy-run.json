@@ -1,0 +1,1579 @@
+{
+  "saved": {
+    "version": 1,
+    "seed": "legacy-save-compatibility",
+    "depth": 17,
+    "mode": "retry",
+    "actions": [
+      {
+        "kind": "flag",
+        "index": 70
+      },
+      {
+        "kind": "reveal",
+        "index": 71
+      }
+    ]
+  },
+  "expected": {
+    "seed": "legacy-save-compatibility",
+    "depth": 17,
+    "mode": "retry",
+    "status": "playing",
+    "revealed": [
+      97,
+      113,
+      129,
+      128,
+      144,
+      143,
+      142,
+      127,
+      114,
+      112,
+      99,
+      115,
+      100,
+      98,
+      84,
+      83,
+      82,
+      96,
+      111,
+      110,
+      95,
+      109,
+      94,
+      81,
+      80,
+      79,
+      66,
+      65,
+      64,
+      67,
+      68,
+      69,
+      85,
+      71
+    ],
+    "flags": [
+      70
+    ]
+  },
+  "floor": {
+    "width": 15,
+    "height": 13,
+    "cells": [
+      {
+        "x": 0,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 5,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 6,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 7,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 8,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 9,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 10,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 11,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 12,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 13,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 14,
+        "y": 0,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 0,
+        "y": 1,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 1,
+        "y": 1,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 2,
+        "y": 1,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 3,
+        "y": 1,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 4,
+        "y": 1,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 5,
+        "y": 1,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 6,
+        "y": 1,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 7,
+        "y": 1,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 8,
+        "y": 1,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 9,
+        "y": 1,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 10,
+        "y": 1,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 11,
+        "y": 1,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 12,
+        "y": 1,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 13,
+        "y": 1,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 14,
+        "y": 1,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 0,
+        "y": 2,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 1,
+        "y": 2,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 2,
+        "y": 2,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 3,
+        "y": 2,
+        "rock": false,
+        "mine": false,
+        "clue": 3
+      },
+      {
+        "x": 4,
+        "y": 2,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 5,
+        "y": 2,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 6,
+        "y": 2,
+        "rock": false,
+        "mine": true,
+        "clue": 1
+      },
+      {
+        "x": 7,
+        "y": 2,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 8,
+        "y": 2,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 9,
+        "y": 2,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 10,
+        "y": 2,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 11,
+        "y": 2,
+        "rock": false,
+        "mine": true,
+        "clue": 0
+      },
+      {
+        "x": 12,
+        "y": 2,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 13,
+        "y": 2,
+        "rock": false,
+        "mine": true,
+        "clue": 0
+      },
+      {
+        "x": 14,
+        "y": 2,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 0,
+        "y": 3,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 1,
+        "y": 3,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 2,
+        "y": 3,
+        "rock": false,
+        "mine": true,
+        "clue": 1
+      },
+      {
+        "x": 3,
+        "y": 3,
+        "rock": false,
+        "mine": true,
+        "clue": 2
+      },
+      {
+        "x": 4,
+        "y": 3,
+        "rock": false,
+        "mine": true,
+        "clue": 1
+      },
+      {
+        "x": 5,
+        "y": 3,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 6,
+        "y": 3,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 7,
+        "y": 3,
+        "rock": false,
+        "mine": true,
+        "clue": 1
+      },
+      {
+        "x": 8,
+        "y": 3,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 9,
+        "y": 3,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 10,
+        "y": 3,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 11,
+        "y": 3,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 12,
+        "y": 3,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 13,
+        "y": 3,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 14,
+        "y": 3,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 0,
+        "y": 4,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 1,
+        "y": 4,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 2,
+        "y": 4,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 3,
+        "y": 4,
+        "rock": false,
+        "mine": false,
+        "clue": 3
+      },
+      {
+        "x": 4,
+        "y": 4,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 5,
+        "y": 4,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 6,
+        "y": 4,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 7,
+        "y": 4,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 8,
+        "y": 4,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 9,
+        "y": 4,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 10,
+        "y": 4,
+        "rock": false,
+        "mine": true,
+        "clue": 0
+      },
+      {
+        "x": 11,
+        "y": 4,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 12,
+        "y": 4,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 13,
+        "y": 4,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 14,
+        "y": 4,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 0,
+        "y": 5,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 1,
+        "y": 5,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 2,
+        "y": 5,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 3,
+        "y": 5,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 4,
+        "y": 5,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 5,
+        "y": 5,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 6,
+        "y": 5,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 7,
+        "y": 5,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 8,
+        "y": 5,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 9,
+        "y": 5,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 10,
+        "y": 5,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 11,
+        "y": 5,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 12,
+        "y": 5,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 13,
+        "y": 5,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 14,
+        "y": 5,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 0,
+        "y": 6,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 1,
+        "y": 6,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 2,
+        "y": 6,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 3,
+        "y": 6,
+        "rock": false,
+        "mine": true,
+        "clue": 1
+      },
+      {
+        "x": 4,
+        "y": 6,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 5,
+        "y": 6,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 6,
+        "y": 6,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 7,
+        "y": 6,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 8,
+        "y": 6,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 9,
+        "y": 6,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 10,
+        "y": 6,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 11,
+        "y": 6,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 12,
+        "y": 6,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 13,
+        "y": 6,
+        "rock": false,
+        "mine": true,
+        "clue": 0
+      },
+      {
+        "x": 14,
+        "y": 6,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 0,
+        "y": 7,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 1,
+        "y": 7,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 2,
+        "y": 7,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 3,
+        "y": 7,
+        "rock": false,
+        "mine": true,
+        "clue": 1
+      },
+      {
+        "x": 4,
+        "y": 7,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 5,
+        "y": 7,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 6,
+        "y": 7,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 7,
+        "y": 7,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 8,
+        "y": 7,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 9,
+        "y": 7,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 10,
+        "y": 7,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 11,
+        "y": 7,
+        "rock": false,
+        "mine": true,
+        "clue": 1
+      },
+      {
+        "x": 12,
+        "y": 7,
+        "rock": false,
+        "mine": false,
+        "clue": 3
+      },
+      {
+        "x": 13,
+        "y": 7,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 14,
+        "y": 7,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 0,
+        "y": 8,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 1,
+        "y": 8,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 2,
+        "y": 8,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 3,
+        "y": 8,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 4,
+        "y": 8,
+        "rock": false,
+        "mine": false,
+        "clue": 3
+      },
+      {
+        "x": 5,
+        "y": 8,
+        "rock": false,
+        "mine": false,
+        "clue": 3
+      },
+      {
+        "x": 6,
+        "y": 8,
+        "rock": false,
+        "mine": true,
+        "clue": 1
+      },
+      {
+        "x": 7,
+        "y": 8,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 8,
+        "y": 8,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 9,
+        "y": 8,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 10,
+        "y": 8,
+        "rock": false,
+        "mine": true,
+        "clue": 1
+      },
+      {
+        "x": 11,
+        "y": 8,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 12,
+        "y": 8,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 13,
+        "y": 8,
+        "rock": false,
+        "mine": true,
+        "clue": 0
+      },
+      {
+        "x": 14,
+        "y": 8,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 0,
+        "y": 9,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 1,
+        "y": 9,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 2,
+        "y": 9,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 3,
+        "y": 9,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 4,
+        "y": 9,
+        "rock": false,
+        "mine": true,
+        "clue": 1
+      },
+      {
+        "x": 5,
+        "y": 9,
+        "rock": false,
+        "mine": true,
+        "clue": 2
+      },
+      {
+        "x": 6,
+        "y": 9,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 7,
+        "y": 9,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 8,
+        "y": 9,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 9,
+        "y": 9,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 10,
+        "y": 9,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 11,
+        "y": 9,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 12,
+        "y": 9,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 13,
+        "y": 9,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 14,
+        "y": 9,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 0,
+        "y": 10,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 1,
+        "y": 10,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 2,
+        "y": 10,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 3,
+        "y": 10,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 4,
+        "y": 10,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 5,
+        "y": 10,
+        "rock": false,
+        "mine": false,
+        "clue": 2
+      },
+      {
+        "x": 6,
+        "y": 10,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 7,
+        "y": 10,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 8,
+        "y": 10,
+        "rock": false,
+        "mine": true,
+        "clue": 0
+      },
+      {
+        "x": 9,
+        "y": 10,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 10,
+        "y": 10,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 11,
+        "y": 10,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 12,
+        "y": 10,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 13,
+        "y": 10,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 14,
+        "y": 10,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 0,
+        "y": 11,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 1,
+        "y": 11,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 2,
+        "y": 11,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 3,
+        "y": 11,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 4,
+        "y": 11,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 5,
+        "y": 11,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 6,
+        "y": 11,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 7,
+        "y": 11,
+        "rock": false,
+        "mine": false,
+        "clue": 1
+      },
+      {
+        "x": 8,
+        "y": 11,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 9,
+        "y": 11,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 10,
+        "y": 11,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 11,
+        "y": 11,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 12,
+        "y": 11,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 13,
+        "y": 11,
+        "rock": false,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 14,
+        "y": 11,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 0,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 1,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 2,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 3,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 4,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 5,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 6,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 7,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 8,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 9,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 10,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 11,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 12,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 13,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      },
+      {
+        "x": 14,
+        "y": 12,
+        "rock": true,
+        "mine": false,
+        "clue": 0
+      }
+    ],
+    "entrance": 97,
+    "exit": 21,
+    "seed": "legacy-save-compatibility",
+    "depth": 17,
+    "validation": {
+      "solvable": true,
+      "reason": "stairs-proven",
+      "trace": [
+        {
+          "safe": [
+            71,
+            101,
+            131,
+            141,
+            145,
+            53,
+            54,
+            55,
+            124,
+            125,
+            50,
+            51,
+            159
+          ],
+          "mines": [
+            70,
+            116,
+            126,
+            130,
+            52,
+            49
+          ],
+          "techniques": {
+            "singles": 19,
+            "subsets": 1,
+            "subsetPasses": 1
+          }
+        },
+        {
+          "safe": [
+            56,
+            72,
+            102,
+            117,
+            132,
+            146,
+            147,
+            155,
+            157,
+            160,
+            37,
+            39,
+            34
+          ],
+          "mines": [
+            49,
+            52,
+            70,
+            116,
+            126,
+            130,
+            139,
+            140,
+            158,
+            41
+          ],
+          "techniques": {
+            "singles": 26,
+            "subsets": 1,
+            "subsetPasses": 1
+          }
+        },
+        {
+          "safe": [
+            118,
+            148,
+            163,
+            154,
+            169,
+            171
+          ],
+          "mines": [
+            41,
+            52,
+            70,
+            43,
+            49,
+            103,
+            116,
+            126,
+            130,
+            133,
+            139,
+            140,
+            158
+          ],
+          "techniques": {
+            "singles": 20,
+            "subsets": 0,
+            "subsetPasses": 0
+          }
+        },
+        {
+          "safe": [
+            63,
+            78,
+            19,
+            21
+          ],
+          "mines": [
+            41,
+            52,
+            70,
+            43,
+            49,
+            103,
+            116,
+            93,
+            108,
+            126,
+            130,
+            133,
+            139,
+            140,
+            158,
+            48,
+            36
+          ],
+          "techniques": {
+            "singles": 23,
+            "subsets": 0,
+            "subsetPasses": 0
+          }
+        }
+      ],
+      "revealed": 100,
+      "openingRevealed": 33,
+      "safeTiles": 105,
+      "provenMoves": 36,
+      "attempts": 1,
+      "techniques": [
+        "single-clue",
+        "subset-subtraction"
+      ]
+    }
+  }
+}

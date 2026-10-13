@@ -1,9 +1,38 @@
 import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
 import { center, longPress, touchDrag, touchPinch, touchCancel, touchSession } from './qa-helpers.js';
 
 const tile = (page, index) => page.locator(`.cell[data-index="${index}"]`);
 const snapshot = page => page.evaluate(() => window.__MINE_QA__.getSnapshot());
 const pageErrors = new WeakMap();
+const legacyRun = JSON.parse(readFileSync(new URL('./fixtures/legacy-run.json', import.meta.url), 'utf8'));
+const saveKey = 'mine-explorer.run.v1';
+
+async function restoreSavedFixture(page, saved) {
+  // Seed the new document before app startup. Writing into a running game
+  // would be overwritten by its legitimate visibilitychange autosave.
+  await page.addInitScript(({ key, saved }) => {
+    const marker = `qa-fixture:${saved.seed}:${saved.depth}`;
+    if (!sessionStorage.getItem(marker)) {
+      localStorage.setItem(key, JSON.stringify(saved));
+      sessionStorage.setItem(marker, 'installed');
+    }
+  }, { key: saveKey, saved });
+  await page.reload(); await ready(page);
+}
+
+async function expectEntranceCentered(page) {
+  const entrance = page.locator('#board .entrance');
+  await expect(entrance).toBeVisible();
+  await expect(entrance).toContainText('ENTRY');
+  const point = await center(entrance), viewport = await center(page.locator('#viewport'));
+  expect(Math.abs(point.x - viewport.x), 'Entrance centered horizontally').toBeLessThanOrEqual(2);
+  expect(Math.abs(point.y - viewport.y), 'Entrance centered vertically').toBeLessThanOrEqual(2);
+  expect(await entrance.evaluate(node => {
+    const rect = node.getBoundingClientRect();
+    return node.contains(document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2));
+  }), 'Entrance must not be covered by an overlay').toBe(true);
+}
 
 async function ready(page) {
   await page.waitForFunction(() => window.__MINE_QA__?.state?.status === 'playing');
@@ -209,7 +238,7 @@ test('portrait and landscape keep the board and controls within the viewport', a
   for (const viewport of [{ width: 390, height: 844 }, { width: 844, height: 390 }, { width: 320, height: 568 }]) {
     await page.setViewportSize(viewport);
     await expect(page.locator('#viewport')).toBeVisible();
-    for (const selector of ['#help-open', '#mode-open', '#zoom-in', '#recenter']) {
+    for (const selector of ['#help-open', '#mode-open', '#legend-open', '#entrance-center', '#zoom-in', '#recenter']) {
       const box = await page.locator(selector).boundingBox();
       expect(box).not.toBeNull();
       expect(box.x).toBeGreaterThanOrEqual(0);
@@ -327,4 +356,113 @@ test('a second touch starting over board controls cancels the pending tile revea
   } finally { await input.close(); }
   expect((await snapshot(page)).revealed).toEqual(before.revealed);
   expect((await snapshot(page)).flags).toEqual(before.flags);
+});
+
+test('new floors open a compact area with a centered, clearly labeled entrance', async ({ page }) => {
+  for (const depth of [1, 17, 201]) {
+    await load(page, { depth, seed: `compact-browser-${depth}` });
+    const state = await snapshot(page);
+    expect(state.revealed.length).toBeGreaterThanOrEqual(9);
+    expect(state.revealed.length).toBeLessThanOrEqual(16);
+    await expectEntranceCentered(page);
+    expect(await page.evaluate(() => window.__MINE_QA__.state.floor.generationVersion)).toBe(2);
+    if (depth === 1) {
+      expect(await page.evaluate(() => {
+        const floor = window.__MINE_QA__.state.floor;
+        return floor.cells[floor.entrance].x;
+      })).toBe(1);
+    }
+  }
+});
+
+test('Center entrance restores the starting landmark after panning', async ({ page, isMobile }) => {
+  const before = await snapshot(page);
+  await expectEntranceCentered(page);
+  const entrance = page.locator('#board .entrance');
+  const start = await center(entrance);
+  if (isMobile) await touchDrag(page, entrance);
+  else {
+    await page.mouse.move(start.x, start.y); await page.mouse.down();
+    await page.mouse.move(start.x + 100, start.y + 75, { steps: 8 }); await page.mouse.up();
+  }
+  const moved = await center(entrance);
+  expect(Math.abs(moved.x - start.x)).toBeGreaterThan(20);
+  await page.getByRole('button', { name: 'Center entrance', exact: true }).click();
+  await expectEntranceCentered(page);
+  expect((await snapshot(page)).revealed).toEqual(before.revealed);
+  expect((await snapshot(page)).flags).toEqual(before.flags);
+});
+
+test('Legend explains all nine symbols and opens from the board and Help', async ({ page }) => {
+  const before = await snapshot(page);
+  await page.locator('#legend-open').click();
+  const dialog = page.getByRole('dialog', { name: 'Symbol legend' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator('.legend-list li')).toHaveCount(9);
+  await expect(dialog.locator('.legend-list strong')).toHaveText([
+    'Entrance · ENTRY', 'Stairs down', 'Number clue', 'Empty floor', 'Covered tile',
+    'Flag', 'Solid rock', 'Fog of war', 'Mine',
+  ]);
+  await expect(dialog.locator('[data-legend-icon] svg')).toHaveCount(4);
+  expect(await dialog.locator('[data-legend-icon="entrance"] svg').innerHTML())
+    .toBe(await page.locator('#board .entrance svg').innerHTML());
+  await page.getByRole('button', { name: 'Close legend' }).click();
+  await expect(page.locator('#legend-open')).toBeFocused();
+  await page.locator('#help-open').click();
+  await page.locator('#help-legend').click();
+  await expect(page.locator('#help-dialog')).toBeHidden();
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  expect((await snapshot(page)).revealed).toEqual(before.revealed);
+  expect((await snapshot(page)).flags).toEqual(before.flags);
+});
+
+test('a progressed legacy save restores its exact original cave and migrates safely', async ({ page }) => {
+  await restoreSavedFixture(page, legacyRun.saved);
+  const restored = await snapshot(page);
+  for (const [key, value] of Object.entries(legacyRun.expected)) expect(restored[key], key).toEqual(value);
+  const floor = await page.evaluate(() => window.__MINE_QA__.state.floor);
+  for (const key of ['width', 'height', 'cells', 'entrance', 'exit']) expect(floor[key], `Original ${key}`).toEqual(legacyRun.floor[key]);
+  const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), saveKey);
+  expect(saved).toEqual({ ...legacyRun.saved, version: 2, generationVersion: 1 });
+  await page.reload(); await ready(page);
+  const reloaded = await snapshot(page);
+  for (const [key, value] of Object.entries(legacyRun.expected)) expect(reloaded[key], key).toEqual(value);
+});
+
+test('an untouched legacy start upgrades to a compact new-generation floor', async ({ page }) => {
+  const oldStart = { ...legacyRun.saved, depth: 1, actions: [] };
+  await restoreSavedFixture(page, oldStart);
+  const state = await snapshot(page);
+  expect(state.depth).toBe(1);
+  expect(state.mode).toBe(oldStart.mode);
+  expect(state.seed).not.toBe(oldStart.seed);
+  expect(state.revealed.length).toBeGreaterThanOrEqual(9);
+  expect(state.revealed.length).toBeLessThanOrEqual(16);
+  await expectEntranceCentered(page);
+  const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), saveKey);
+  expect(saved.version).toBe(2);
+  expect(saved.generationVersion).toBe(2);
+  expect(saved.actions).toEqual([]);
+});
+
+test('a new-generation save preserves its exact cave and progress on reload', async ({ page }) => {
+  await load(page, { depth: 17, mode: 'retry', seed: 'new-generation-preservation' });
+  const mine = await target(page, 'mine');
+  await tile(page, mine).focus(); await page.keyboard.press('f');
+  const safe = await target(page, 'deduced');
+  await tile(page, safe).focus(); await page.keyboard.press('Enter');
+  const before = await snapshot(page);
+  const floorBefore = await page.evaluate(() => window.__MINE_QA__.state.floor);
+  const savedBefore = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), saveKey);
+  expect(savedBefore.version).toBe(2);
+  expect(savedBefore.generationVersion).toBe(2);
+  await page.reload();
+  await page.waitForFunction(() => !!window.__MINE_QA__?.state);
+  await expect(page.locator('#loading')).toBeHidden();
+  const after = await snapshot(page);
+  for (const key of ['seed', 'depth', 'mode', 'status', 'revealed', 'flags']) expect(after[key], key).toEqual(before[key]);
+  expect(await page.evaluate(() => window.__MINE_QA__.state.floor)).toEqual(floorBefore);
+  expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)), saveKey)).toEqual(savedBefore);
 });

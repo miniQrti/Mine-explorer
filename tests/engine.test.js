@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import {
   createGame, deduce, difficultyForDepth, generateFloor, GenerationError,
   getPlayerView, getVisibleIndices, isFrontier, neighbors, reveal, toggleFlag, validateFloor,
@@ -8,7 +9,7 @@ import {
 function fixture(rows, entrance, exit) {
   const height = rows.length, width = rows[0].length;
   const cells = rows.flatMap((row, y) => [...row].map((char, x) => ({ x, y, rock: char === '#', mine: char === '*', clue: 0 })));
-  const floor = { width, height, cells, entrance, exit, depth: 1, seed: 'fixture' };
+  const floor = { width, height, cells, entrance, exit, depth: 1, seed: 'fixture', generationVersion: 1 };
   cells.forEach((cell, index) => { cell.clue = neighbors(floor, index).filter(i => cells[i].mine).length; });
   return floor;
 }
@@ -186,6 +187,24 @@ test('generation is reproducible for debugging and fresh by default', () => {
   assert.notEqual(a.seed, b.seed);
   assert.notDeepEqual(a.cells, b.cells);
   assert.throws(() => generateFloor(1, { maxAttempts: 0 }), GenerationError);
+  assert.throws(() => generateFloor(1, { generationVersion: 99 }), RangeError);
+});
+
+test('version 1 seeds exactly preserve pre-upgrade boards and validation traces', () => {
+  // Captured SHA-256 hashes from the released engine before v2 edits. These
+  // cover terrain, entrance, stairs, mines, clues, and every proof action.
+  const snapshots = [
+    [1, 'browser-qa', '778e9b7f959f39d733f2f9adec23f6b3cb68c3a59b5868802618be48a29cb95d'],
+    [1, 'balance-1-26', '2b8675db214049a7e5fecc4560b734e3394db874ceac2bc60006ee4c24fe2ac3'],
+    [201, 'balance-201-136', 'edbbf338792c49080166ecca64974ead2365d5f2942500604889e6c2450bbdd6'],
+    [1000, 'legacy-progress', 'f6e2a7d9bce7c47b225219e819a28fa1fc707baba0cf25ab49c24b645068887c'],
+    [22, 'reproducible', '0d42a924c9ba61e3d0d27a582ff8747578713cebf9224dc0a894927e4b4a961f'],
+  ];
+  for (const [depth, seed, expectedHash] of snapshots) {
+    const { generationVersion, ...floor } = generateFloor(depth, { seed, generationVersion: 1 });
+    assert.equal(generationVersion, 1);
+    assert.equal(createHash('sha256').update(JSON.stringify(floor)).digest('hex'), expectedHash);
+  }
 });
 
 test('near-cleared and one-click staircase generation regressions stay engaging', () => {
@@ -211,7 +230,25 @@ test('320 generated floors have legal sound proof traces across progression band
       assert.equal(state.status, 'playing', 'stairs must remain hidden at the start');
       assert.equal(state.revealed.has(floor.entrance), true);
       assert.equal(floor.cells[floor.entrance].clue, 0);
-      assert.equal(floor.cells[floor.entrance].x, depth === 1 ? 2 : Math.floor(floor.width / 2));
+      assert.equal(floor.generationVersion, 2);
+      assert.equal(floor.cells[floor.entrance].x, depth === 1 ? 1 : Math.floor(floor.width / 2));
+      assert.ok(state.revealed.size >= 9 && state.revealed.size <= 16, 'natural starting area stays compact');
+      if (depth === 1) assert.ok(floor.cells.filter(c => c.x === 0).every(c => c.rock), 'there is no explorable cave behind the edge entrance');
+      // Independently reconstruct classic zero expansion; the compactness
+      // constraint must not truncate flood behavior to enforce its limit.
+      const expectedOpening = new Set([floor.entrance]);
+      const floodQueue = [floor.entrance];
+      while (floodQueue.length) {
+        const current = floodQueue.shift();
+        if (floor.cells[current].clue) continue;
+        for (const next of neighbors(floor, current)) {
+          if (floor.cells[next].rock || expectedOpening.has(next)) continue;
+          assert.equal(floor.cells[next].mine, false);
+          expectedOpening.add(next);
+          floodQueue.push(next);
+        }
+      }
+      assert.deepEqual(state.revealed, expectedOpening);
       assert.ok(floor.cells.some(c => c.rock));
       for (let index = 0; index < floor.cells.length; index++) {
         const cell = floor.cells[index];
