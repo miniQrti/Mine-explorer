@@ -375,6 +375,44 @@ test('new floors open a compact area with a centered, clearly labeled entrance',
   }
 });
 
+test('resize preserves the entrance and the player camera through orientation changes', async ({ page, isMobile }) => {
+  const settle = () => page.evaluate(() => new Promise(resolve => {
+    requestAnimationFrame(() => requestAnimationFrame(resolve));
+  }));
+  for (const size of [{ width: 844, height: 390 }, { width: 390, height: 844 }]) {
+    await page.setViewportSize(size); await settle();
+    await expectEntranceCentered(page);
+  }
+  const entrance = page.locator('#board .entrance');
+  if (isMobile) await touchDrag(page, entrance);
+  else {
+    const start = await center(entrance);
+    await page.mouse.move(start.x, start.y); await page.mouse.down();
+    await page.mouse.move(start.x + 70, start.y + 45, { steps: 8 }); await page.mouse.up();
+  }
+  await page.locator('#zoom-in').click();
+  const worldCenter = () => page.evaluate(() => {
+    const bounds = document.querySelector('#viewport').getBoundingClientRect();
+    const matrix = new DOMMatrix(getComputedStyle(document.querySelector('#board')).transform);
+    return { x: (bounds.width / 2 - matrix.e) / matrix.a, y: (bounds.height / 2 - matrix.f) / matrix.d, zoom: matrix.a };
+  });
+  const before = await worldCenter();
+  await page.setViewportSize({ width: 844, height: 390 }); await settle();
+  const after = await worldCenter();
+  expect(after.x).toBeCloseTo(before.x, 3); expect(after.y).toBeCloseTo(before.y, 3);
+  expect(after.zoom).toBe(before.zoom);
+
+  // A queued resize must not undo a new floor's explicit entrance centering.
+  await page.evaluate(() => {
+    const viewport = document.querySelector('#viewport');
+    viewport.style.width = `${viewport.getBoundingClientRect().width - 20}px`;
+    const qa = window.__MINE_QA__;
+    qa.loadFloor(qa.generateFloor(17, { seed: 'resize-new-floor' }));
+  });
+  await settle();
+  await expectEntranceCentered(page);
+});
+
 test('Center entrance restores the starting landmark after panning', async ({ page, isMobile }) => {
   const before = await snapshot(page);
   await expectEntranceCentered(page);

@@ -69,9 +69,10 @@ The first-floor entrance was visually ambiguous, new floors showed too much safe
 | Starting area too large | New floors reveal 9–16 safe cells; first entrance sits at the cave edge with rock behind it | 320 proof replays also reconstruct ordinary zero-flood behavior independently; no artificial flood cutoff |
 | Missing symbol guide | Persistent Legend button and Help link explain all nine symbols | Actual icon parity, both opening routes, scrolling and closing on narrow touch screens |
 | Save compatibility after generation change | Versioned generation preserves exact old progressed boards; untouched old openings adopt compact generation | Five historical whole-floor/proof hashes; exact old/new browser save-reload regressions |
+| Mobile resize moved the camera away from ENTRY | Viewport resize preserves the viewed map point and zoom, including when rotating a phone | Independent reproduction and fix review; desktop/mobile orientation, pan/zoom, and queued-resize regressions |
 | Ambiguous starting instructions | Direct players to covered tiles along the explored edge, rather than already-open entrance neighbors | Specialist design review finding applied |
 
-Results: **16 engine tests passed; 48 Chromium desktop/mobile browser tests passed, 2 intentional desktop touch skips; no unexpected JavaScript errors.** The engine specialist also generated 500 compact floors across depth bands without failure (maximum observed generation time 33 ms). Existing fairness, gesture safety, failure modes, descent, and worker recovery checks still pass.
+Results: **16 engine tests passed; 50 Chromium desktop/mobile browser tests passed, 2 intentional desktop touch skips; no unexpected JavaScript errors.** The engine specialist also generated 500 compact floors across depth bands without failure (maximum observed generation time 33 ms). Existing fairness, gesture safety, failure modes, descent, and worker recovery checks still pass.
 
 A supplemental WebKit rerun could not launch after the environment reset removed its temporary native libraries. The original release's WebKit results above remain historical; this update's executed mobile regression coverage is Chromium emulation plus rendered UX review.
 

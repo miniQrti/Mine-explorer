@@ -15,6 +15,7 @@ const preferences = { sound: false, reducedMotion: matchMedia('(prefers-reduced-
 preferences.best = { expedition: 1, retry: 1, ...preferences.best };
 let state = null, mode = 'expedition', actions = [], busy = false, generationId = 0, pendingMode = null, lastRequest = null;
 let camera = { x: 0, y: 0, zoom: 1 }, focusIndex = null, worker = null, audioContext = null;
+let cameraBounds = viewport.getBoundingClientRect();
 const pointerState = new Map();
 let gesture = null, holdTimer = null, touchFlagUntil = 0;
 const announce = message => { $('announcement').textContent = message; };
@@ -35,7 +36,7 @@ function sound(kind) {
     oscillator.connect(gain).connect(audioContext.destination); oscillator.start(); oscillator.stop(audioContext.currentTime + .2);
   } catch { /* Sound is optional. */ }
 }
-function updateCamera() { board.style.transform = `translate(${camera.x}px,${camera.y}px) scale(${camera.zoom})`; $('zoom-level').textContent = `${Math.round(camera.zoom * 100)}%`; $('zoom-out').disabled = camera.zoom <= .7; $('zoom-in').disabled = camera.zoom >= 1.8; }
+function updateCamera() { cameraBounds = viewport.getBoundingClientRect(); board.style.transform = `translate(${camera.x}px,${camera.y}px) scale(${camera.zoom})`; $('zoom-level').textContent = `${Math.round(camera.zoom * 100)}%`; $('zoom-out').disabled = camera.zoom <= .7; $('zoom-in').disabled = camera.zoom >= 1.8; }
 function centerBoard() {
   if (!state) return;
   const cells = getPlayerView(state).cells.filter(c => c.kind !== 'fog');
@@ -257,7 +258,18 @@ $('sound-toggle').onchange = event => { preferences.sound = event.target.checked
 $('motion-toggle').onchange = event => { preferences.reducedMotion = event.target.checked; document.body.classList.toggle('reduced-motion', preferences.reducedMotion); savePreferences(); };
 $('zoom-in').onclick = () => zoomTo(camera.zoom + .1); $('zoom-out').onclick = () => zoomTo(camera.zoom - .1); $('recenter').onclick = centerBoard;
 $('generation-retry').onclick = () => beginFloor(lastRequest?.depth || 1);
-let resizeTimeout; window.addEventListener('resize', () => { clearTimeout(resizeTimeout); resizeTimeout = setTimeout(centerBoard, 120); });
+// Keep the same world point in view as browser chrome or orientation changes.
+// Camera operations record their current bounds so a queued observation cannot
+// shift a floor that has already been centered for the new size.
+new ResizeObserver(() => {
+  const bounds = viewport.getBoundingClientRect();
+  const dx = (bounds.width - cameraBounds.width) / 2;
+  const dy = (bounds.height - cameraBounds.height) / 2;
+  if (!dx && !dy) return;
+  cancelHold(); gesture = null; pointerState.clear();
+  camera.x += dx; camera.y += dy;
+  updateCamera();
+}).observe(viewport);
 document.addEventListener('visibilitychange', () => { if (document.hidden) { cancelHold(); gesture = null; pointerState.clear(); persist(); } });
 
 if (new URLSearchParams(location.search).get('qa') === '1') {
