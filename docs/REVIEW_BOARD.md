@@ -76,4 +76,6 @@ Results: **16 engine tests passed; 50 Chromium desktop/mobile browser tests pass
 
 A supplemental WebKit rerun could not launch after the environment reset removed its temporary native libraries. The original release's WebKit results above remain historical; this update's executed mobile regression coverage is Chromium emulation plus rendered UX review.
 
-Updated screenshots: [desktop](screenshots/desktop.png), [mobile](screenshots/mobile.png), [legend](screenshots/legend.png). Live deployment verification for this update is pending.
+Updated screenshots: [desktop](screenshots/desktop.png), [mobile](screenshots/mobile.png), [legend](screenshots/legend.png). [Deployment workflow](https://github.com/miniQrti/Mine-explorer/actions/runs/38384483701) passed for `fe99ab7`.
+
+The published game passed fresh desktop and Pixel 7 emulation checks: centered ENTRY, 14/16-tile openings, all nine legend symbols, and visible-clue-only play to floor 2 (30/15 moves), with no uncaught JavaScript errors. Mobile portrait/landscape rotation retained entrance centering. Three additional fresh mobile loads also kept ENTRY centered after the initial resize settled.
